@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ensmart.demo.chainedtransactionmanager.app.sample.repository.db2.Sample2Mapper">
+	<sql id="sample2List">
+        SELECT 
+	        id,
+	        'name1' as name,
+	        'desc1' as description
+	    from sample2
+	</sql>
+
+    <!--
+    	전체 샘플 조회
+    -->
+    <select id="selectAllSample2s" resultType="sample2Dto">
+    	/* Sample2Mapper.selectAllSample2s */
+		<include refid="sample2List" />
+    </select>
+    
+    <!--
+    	샘플 단건 조회
+    -->
+    <select id="selectSample2ById" parameterType="int" resultType="sample2Dto">
+    	/* Sample2Mapper.selectSample2ById */
+    	select *
+    	from (
+        <include refid="sample2List" />
+        ) a
+        where id = #{id}
+    </select>
+    
+    <!--
+    	샘플 목록 조회
+    -->
+    <select id="selectSample2s" parameterType="sample2Param" resultType="sample2Dto">
+    	/* Sample2Mapper.selectSample2s */
+    	select *
+    	from (
+        <include refid="sample2List" />
+        ) a
+        <where>
+        	<if test="id != null">
+        		and id = #{id}
+        	</if>
+        	<if test="name != null and name != ''">
+        		and name = #{name}
+        	</if>
+        	<if test="description != null and description != ''">
+        		and description = #{description}
+        	</if>
+        </where>
+    </select>
+
+    <!--
+    	샘플 목록 조회
+    -->
+    <select id="selectSlowSample2s" parameterType="sample2Param" resultType="sample2Dto">
+    	/* Sample2Mapper.selectSample2s */
+    	select *
+    	from (
+        <include refid="sample2List" />
+        ) a, pg_sleep(20)
+        <where>
+        	<if test="id != null">
+        		and id = #{id}
+        	</if>
+        	<if test="name != null and name != ''">
+        		and name = #{name}
+        	</if>
+        	<if test="description != null and description != ''">
+        		and description = #{description}
+        	</if>
+        </where>
+    </select>
+
+	<insert id="insertSample2" parameterType="sample2Param" >
+    	/* Sample2Mapper.insertSample */
+		insert into sample2(name, description) values (#{name}, #{description})
+    </insert>
+
+	<insert id="insertSample2WithId" parameterType="sample2Param" >
+    	/* Sample2Mapper.insertSampleWithId */
+		insert into sample2(id, name, description) values (#{id}, #{name}, #{description})
+    </insert>
+
+	<update id="updateSample2Name" parameterType="sampleParam" >
+    	/* Sample2Mapper.updateSample2Name */
+		update sample2
+		set name = #{name}
+		where id = #{id}
+    </update>
+
+</mapper>

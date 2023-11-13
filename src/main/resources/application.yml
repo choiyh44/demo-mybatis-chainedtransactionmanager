@@ -1,0 +1,45 @@
+# mybatis:
+#   type-aliases-package: kr.co.ensmart.frameworkdemo.**.dto
+#   mapper-locations: classpath:mapper/**/*.xml
+#   configuration:
+#     map-underscore-to-camel-case: true
+#     default-fetch-size: 100
+#     default-statement-timeout: 30
+
+demoapp:
+  datasource:
+    db1: 
+#      jdbc-url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+      url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+      driver-class-name: org.postgresql.Driver
+      username: postgres
+      password: admin
+      hikari:
+        poolName: db1-pool
+        maximum-pool-size: 5
+        minimum-idle: 5
+        connection-timeout: 30000
+        validation-timeout: 5000
+        max-lifetime: 1800000
+        idle-timeout: 300000
+    db2: 
+      url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+      driver-class-name: org.postgresql.Driver
+      username: postgres
+      password: admin
+      hikari:
+        poolName: db2-pool
+        maximum-pool-size: 5
+        minimum-idle: 5
+        connection-timeout: 30000
+        validation-timeout: 5000
+        max-lifetime: 1800000
+        idle-timeout: 300000
+
+logging:
+  level:
+    kr.co.ensmart.frameworkdemo.app.dao: debug
+    com.zaxxer.hikari: TRACE 
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    
+debug: true
